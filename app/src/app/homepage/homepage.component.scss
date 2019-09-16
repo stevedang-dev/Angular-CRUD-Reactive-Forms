@@ -1,0 +1,10 @@
+.form-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    li {
+        list-style: none;
+        padding: 50px;
+        border: 1px solid green;
+    }
+}
