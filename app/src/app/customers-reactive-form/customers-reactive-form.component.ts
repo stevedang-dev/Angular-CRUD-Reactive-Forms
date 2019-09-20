@@ -19,6 +19,7 @@ function ratingRange(min: number, max: number): ValidatorFn {
         return null;
     };
 }
+
 function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
     const emailControl = c.get('email');
     const confirmationControl = c.get('confirmEmail');
