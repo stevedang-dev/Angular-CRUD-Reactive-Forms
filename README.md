@@ -73,24 +73,34 @@ imports: [
 
 ![Image](./README-assets/create-rf-formgroup.png)
 
+---
+
 ## 2. FormGroup & FormControl:
 
 ![Image](./README-assets/rf-formgroup.png)
 ![Image](./README-assets/rf-formcontrol.png)
 
+---
+
 ## 3. Accessing The Form Control Properties:
 
 ![Image](./README-assets/rf-formmodel.png)
 
+---
+
 ## 4. Set Value and Patch Value:
 
 ![Image](./README-assets/set-patch-values.png)
+
+---
 
 ## 5. FormBuilder:
 
 ![Image](./README-assets/rf-formbuilder.png)
 ![Image](./README-assets/tf-fb-syntax.png)
 ![Image](./README-assets/tf-fb-syntax3.png)
+
+---
 
 ## 6. Validation:
 
@@ -115,3 +125,5 @@ imports: [
 ![Image](./README-assets/emailGroup.png)
 ![Image](./README-assets/email.png)
 ![Image](./README-assets/confirmation.png)
+
+---
