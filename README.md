@@ -12,6 +12,21 @@
 ```
 
 # Key concepts:
+-
+
+- FormArray:
+```
+import { FormArray } from '@angular/forms';
+```
+
+- Directives:
+```
+1. formArrayName
+2. formGroupName
+3. formControlName
+4.
+
+```
 
 #### 1. Build form by a form builder:
 
@@ -43,13 +58,35 @@ this.customerForm = this.fb.group({
 #### 2. Get a form control:
 
 ```
-
+const emailControl = this.customerForm.get('emailGroup.email');
 ```
 
 #### 3. Custom validations:
 
 ```
+function ratingRange(min: number, max: number): ValidatorFn {
+    return (c: AbstractControl): { [key: string]: boolean } | null => {
+        if (
+            c.value !== null &&
+            (isNaN(c.value) || c.value < min || c.value > max)
+        ) {
+            return { range: true };
+        }
+        return null;
+    };
+}
 
+function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
+    const emailControl = c.get('email');
+    const confirmationControl = c.get('confirmEmail');
+    if (emailControl.pristine || confirmationControl.pristine) {
+        return null;
+    }
+    if (emailControl.value === confirmationControl.value) {
+        return null;
+    }
+    return { match: true };
+}
 ```
 
 #### 4. RxJS Operators:
@@ -66,6 +103,10 @@ emailControl.valueChanges.pipe(
     this.setMessage(emailControl);
 });
 ```
+
+#### 5. Benefits of FormGroup:
+
+![Image](./README-assets/8-benefits-of-form-group.png)
 
 ---
 
@@ -208,5 +249,53 @@ imports: [
 
 ![Image](./README-assets/7-debounce-time.png)
 ![Image](./README-assets/7-debounce-time1.png)
+
+---
+
+## 8. Dynamically Duplicate Input Elements:
+
+- Add multiple address blocks.
+- FormArray:
+```
+import { FormArray } from '@angular/forms';
+```
+
+### a) Steps:
+
+![Image](./README-assets/8-steps.png)
+
+### b) Define the Input Element(s) to Duplicate:
+
+![Image](./README-assets/8-step1-define-input-element.png)
+
+
+### c) Define a FormGroup:
+
+![Image](./README-assets/8-step1-define-input-element.png)
+![Image](./README-assets/8-form-group.png)
+
+
+### d) Refactor:
+- To make copies.
+
+![Image](./README-assets/8-refactor.png)
+
+### e) Create a FormArray:
+- Form Array: group of form controls or form groups.
+- Differences: access through index instead of name.
+
+![Image](./README-assets/8-form-array.png)
+![Image](./README-assets/8-form-array1.png)
+
+### f) Loop Through the FormArray:
+
+![Image](./README-assets/8-loop-through-the-form-array.png)
+![Image](./README-assets/8-loop-screen-reader.png)
+
+### g) Duplicate the Input Elements:
+
+![Image](./README-assets/8-add-address.png)
+![Image](./README-assets/8-add-address-btn.png)
+![Image](./README-assets/8-done.png)
 
 ---

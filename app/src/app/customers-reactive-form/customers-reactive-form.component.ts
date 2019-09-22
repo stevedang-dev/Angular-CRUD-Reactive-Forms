@@ -5,7 +5,8 @@ import {
     FormBuilder,
     Validators,
     AbstractControl,
-    ValidatorFn
+    ValidatorFn,
+    FormArray
 } from '@angular/forms';
 
 import { debounceTime } from 'rxjs/operators';
@@ -49,23 +50,26 @@ export class CustomersReactiveFormComponent implements OnInit {
         email: 'Please enter a valid email address.'
     };
 
-    constructor(private fb: FormBuilder) {}
+    // Define a property as a getter function
+    get addresses(): FormArray {
+        return this.customerForm.get('addresses') as FormArray;
+    }
+
+    constructor(private fb: FormBuilder) { }
 
     ngOnInit() {
         this.customerForm = this.fb.group({
             firstName: ['', [Validators.required, Validators.minLength(3)]],
             lastName: ['', [Validators.required, Validators.maxLength(50)]],
-            emailGroup: this.fb.group(
-                {
-                    email: ['', [Validators.required, Validators.email]],
-                    confirmEmail: ['', Validators.required]
-                },
-                { validator: emailMatcher }
-            ),
+            emailGroup: this.fb.group({
+                email: ['', [Validators.required, Validators.email]],
+                confirmEmail: ['', Validators.required],
+            }, { validator: emailMatcher }),
             phone: '',
             notification: 'email',
             rating: [null, ratingRange(1, 5)],
-            sendCatalog: true
+            sendCatalog: true,
+            addresses: this.fb.array([this.buildAddress()])
         });
         // Watching changes of the form control:
         this.customerForm.get('notification').valueChanges.subscribe(value => {
@@ -120,5 +124,21 @@ export class CustomersReactiveFormComponent implements OnInit {
             console.log('c.errors:', c.errors);
             console.log('emailMessage: ', this.emailMessage);
         }
+    }
+
+    addAddress(): void {
+        this.addresses.push(this.buildAddress());
+    }
+
+    // Create an instance of the address formgroup
+    buildAddress(): FormGroup {
+        return this.fb.group({
+            addressType: 'home',
+            street1: '',
+            street2: '',
+            city: '',
+            state: '',
+            zip: ''
+        });
     }
 }
