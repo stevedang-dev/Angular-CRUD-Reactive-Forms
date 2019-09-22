@@ -11,6 +11,62 @@
 }
 ```
 
+# Key concepts:
+
+#### 1. Build form by a form builder:
+
+- Import, Inject, Initialize the form.
+
+```
+import { FormBuilder } from '@angular/forms';
+
+customerForm: FormGroup;
+constructor(private fb: FormBuilder) {}
+
+this.customerForm = this.fb.group({
+    firstName: ['', [Validators.required, Validators.minLength(3)]],
+    lastName: ['', [Validators.required, Validators.maxLength(50)]],
+    emailGroup: this.fb.group(
+        {
+            email: ['', [Validators.required, Validators.email]],
+            confirmEmail: ['', Validators.required]
+        },
+        { validator: emailMatcher }
+    ),
+    phone: '',
+    notification: 'email',
+    rating: [null, ratingRange(1, 5)],
+    sendCatalog: true
+});
+```
+
+#### 2. Get a form control:
+
+```
+
+```
+
+#### 3. Custom validations:
+
+```
+
+```
+
+#### 4. RxJS Operators:
+
+```
+import { debounceTime } from 'rxjs/operators';
+
+const emailControl = this.customerForm.get('emailGroup.email');
+emailControl.valueChanges.pipe(
+        debounceTime(1000)
+    )
+    .subscribe(value => {
+    // Reacting to the changes
+    this.setMessage(emailControl);
+});
+```
+
 ---
 
 # Angular Forms:
@@ -55,7 +111,7 @@ Template-driven                 |   Reactive Forms
 
 ---
 
-# Reactive Forms:
+# Reactive Forms Module:
 
 - Add this to the app.module.ts
 
@@ -125,5 +181,32 @@ imports: [
 ![Image](./README-assets/emailGroup.png)
 ![Image](./README-assets/email.png)
 ![Image](./README-assets/confirmation.png)
+
+---
+
+## 7. Reacting to Changes:
+
+### a) Watching:
+
+![Image](./README-assets/7-waching.png)
+![Image](./README-assets/7-waching1.png)
+
+### b) Reacting: Adjusting Validation Rules
+
+![Image](./README-assets/7-reacting.png)
+![Image](./README-assets/7-reacting1.png)
+
+### c) Reacting: Displaying Validation Messages
+
+![Image](./README-assets/7-validationMessages.png)
+![Image](./README-assets/7-emailMsg.png)
+![Image](./README-assets/7-object-keys-array.png)
+![Image](./README-assets/7-object-keys-array1.png)
+![Image](./README-assets/7-object-keys-array2.png)
+
+### d) Reacting to Changes: Reactive Transformations
+
+![Image](./README-assets/7-debounce-time.png)
+![Image](./README-assets/7-debounce-time1.png)
 
 ---

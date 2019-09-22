@@ -8,6 +8,8 @@ import {
     ValidatorFn
 } from '@angular/forms';
 
+import { debounceTime } from 'rxjs/operators';
+
 function ratingRange(min: number, max: number): ValidatorFn {
     return (c: AbstractControl): { [key: string]: boolean } | null => {
         if (
@@ -40,6 +42,12 @@ function emailMatcher(c: AbstractControl): { [key: string]: boolean } | null {
 export class CustomersReactiveFormComponent implements OnInit {
     customerForm: FormGroup;
     customer = new Customer();
+    emailMessage: string;
+
+    private validationMessages = {
+        required: 'Please enter your email address.',
+        email: 'Please enter a valid email address.'
+    };
 
     constructor(private fb: FormBuilder) {}
 
@@ -59,8 +67,25 @@ export class CustomersReactiveFormComponent implements OnInit {
             rating: [null, ratingRange(1, 5)],
             sendCatalog: true
         });
+        // Watching changes of the form control:
+        this.customerForm.get('notification').valueChanges.subscribe(value => {
+            console.log('Changed value: ', value);
+            // Reacting to the changes
+            this.setNotification(value);
+        });
+
+        // Watching changes of the form control:
+        const emailControl = this.customerForm.get('emailGroup.email');
+        emailControl.valueChanges.pipe(debounceTime(1000)).subscribe(value => {
+            // Reacting to the changes
+            this.setMessage(emailControl);
+        });
     }
 
+    // Event binding from the view html.
+    // Change the validations based on user selection.
+    // ** USE WATCH INSTEAD **:
+    // phoneControl.valueChanges.subscribe(data => console.log(data));
     setNotification(notifyVia: string): void {
         const phoneControl = this.customerForm.get('phone');
         if (notifyVia === 'text') {
@@ -83,5 +108,17 @@ export class CustomersReactiveFormComponent implements OnInit {
     save(): void {
         console.log(this.customerForm);
         console.log(this.customerForm.value);
+    }
+
+    setMessage(c: AbstractControl): void {
+        this.emailMessage = '';
+        if ((c.touched || c.dirty) && (c.errors || !c.valid)) {
+            this.emailMessage = Object.keys(c.errors)
+                .map(key => this.validationMessages[key])
+                .join(' ');
+            console.log('Object.keys(c.errors):', Object.keys(c.errors));
+            console.log('c.errors:', c.errors);
+            console.log('emailMessage: ', this.emailMessage);
+        }
     }
 }

@@ -91,34 +91,10 @@
                             type="email"
                             placeholder="Email (required)"
                             formControlName="email"
-                            [ngClass]="{
-                                'is-invalid':
-                                    customerForm.get('emailGroup').errors ||
-                                    ((customerForm.get('emailGroup.email')
-                                        .touched ||
-                                        customerForm.get('emailGroup.email')
-                                            .dirty) &&
-                                        !customerForm.get('emailGroup.email')
-                                            .valid)
-                            }"
+                            [ngClass]="{ 'is-invalid': emailMessage }"
                         />
                         <span class="invalid-feedback">
-                            <span
-                                *ngIf="
-                                    customerForm.get('emailGroup.email').errors
-                                        ?.required
-                                "
-                            >
-                                Please enter your email address.
-                            </span>
-                            <span
-                                *ngIf="
-                                    customerForm.get('emailGroup.email').errors
-                                        ?.email
-                                "
-                            >
-                                Please enter a valid email address.
-                            </span>
+                            {{ emailMessage }}
                         </span>
                     </div>
                 </div>
@@ -206,10 +182,10 @@
                                 type="radio"
                                 value="email"
                                 formControlName="notification"
-                                (click)="setNotification('email')"
                             />Email
                         </label>
                     </div>
+                    <!-- (click)="setNotification('email')" -->
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input
@@ -217,10 +193,10 @@
                                 type="radio"
                                 value="text"
                                 formControlName="notification"
-                                (click)="setNotification('text')"
                             />Text
                         </label>
                     </div>
+                    <!-- (click)="setNotification('text')" -->
                 </div>
             </div>
 
@@ -240,6 +216,7 @@
                                     customerForm.get('rating').dirty) &&
                                 !customerForm.get('rating').valid
                         }"
+                        placeholder="From 1 to 5"
                     />
                     <span class="invalid-feedback">
                         <span *ngIf="customerForm.get('rating').errors?.range">
