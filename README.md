@@ -299,3 +299,40 @@ import { FormArray } from '@angular/forms';
 ![Image](./README-assets/8-done.png)
 
 ---
+
+## 9. Reactive Forms in Context:
+
+### a) Architecture:
+- AppModule: Basic application and startup pieces.
+- ProductModule: Product feature pieces.
+- SharedModule: Sharable pieces across the app.
+
+![Image](./README-assets/9-APM-architecture.png)
+![Image](./README-assets/9-APM-architecture1.png)
+
+### b) Routing:
+
+![Image](./README-assets/9-APM-routing.png)
+![Image](./README-assets/9-APM-routing-params.png)
+
+### c) Setting a canDeactivate Guard:
+
+![Image](./README-assets/9-APM-canDeactivate.png)
+![Image](./README-assets/9-APM-routing-guard.png)
+![Image](./README-assets/9-APM-routing-guards.png)
+
+
+### d) Refactoring to a Custom Validation Class:
+
+![Image](./README-assets/9-APM-num-validator.png)
+![Image](./README-assets/9-APM-shared-validators.png)
+
+
+---
+
+## 10. Reactive Forms CRUD:
+
+
+
+---
+
